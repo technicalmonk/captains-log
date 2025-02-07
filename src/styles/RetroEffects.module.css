@@ -1,0 +1,113 @@
+/* CRT and Scanline Effects */
+@keyframes flicker {
+  0% { opacity: 0.997; }
+  5% { opacity: 0.989; }
+  10% { opacity: 0.991; }
+  15% { opacity: 0.997; }
+  20% { opacity: 0.989; }
+  25% { opacity: 0.997; }
+  30% { opacity: 0.991; }
+  35% { opacity: 0.997; }
+  40% { opacity: 0.994; }
+  45% { opacity: 0.991; }
+  50% { opacity: 0.997; }
+  55% { opacity: 0.994; }
+  60% { opacity: 0.991; }
+  65% { opacity: 0.997; }
+  70% { opacity: 0.989; }
+  75% { opacity: 0.997; }
+  80% { opacity: 0.991; }
+  85% { opacity: 0.997; }
+  90% { opacity: 0.989; }
+  95% { opacity: 0.997; }
+  100% { opacity: 0.997; }
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes textShadowPulse {
+  0% { text-shadow: 0 0 2px #0f0; }
+  50% { text-shadow: 0 0 4px #0f0; }
+  100% { text-shadow: 0 0 2px #0f0; }
+}
+
+.retroContainer {
+  position: relative;
+  overflow: hidden;
+}
+
+.retroContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    circle at center,
+    transparent 0%,
+    rgba(0, 0, 0, 0.03) 90%,
+    rgba(0, 0, 0, 0.09) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.retroContainer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.03) 0px,
+    rgba(0, 0, 0, 0.03) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  animation: scanline 30s linear infinite;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.crtEffect {
+  position: relative;
+  animation: flicker 15s infinite;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.crtEffect::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    rgba(0, 255, 0, 0.03),
+    rgba(0, 255, 0, 0.015)
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glowText {
+  animation: textShadowPulse 6s infinite;
+  color: #0f0;
+}
+
+.pixelated {
+  image-rendering: pixelated;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+} 

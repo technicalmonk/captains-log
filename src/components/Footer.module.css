@@ -1,0 +1,73 @@
+.footer {
+  background-color: var(--background-color, #001100);
+  border-top: 2px solid var(--border-color, #00ff00);
+  padding: 15px 20px;
+  font-family: 'VT323', 'Courier New', monospace;
+  color: var(--text-color, #00ff00);
+  box-shadow: 0 -2px 10px var(--border-color, #00ff00);
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.copyright {
+  font-size: 1.2em;
+  text-shadow: 0 0 5px var(--text-color, #00ff00);
+}
+
+.colorSchemes {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.label {
+  font-size: 1.2em;
+  text-shadow: 0 0 5px var(--text-color, #00ff00);
+}
+
+.schemeButtons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.schemeButton {
+  background-color: transparent;
+  border: 1px solid var(--button-border);
+  color: var(--button-color);
+  padding: 5px 15px;
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.schemeButton:hover {
+  background-color: color-mix(in srgb, var(--button-color) 15%, transparent);
+  box-shadow: 0 0 8px var(--button-color);
+}
+
+.schemeButton.active {
+  background-color: color-mix(in srgb, var(--button-color) 20%, transparent);
+  box-shadow: 0 0 12px var(--button-color);
+}
+
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .colorSchemes {
+    flex-direction: column;
+  }
+} 

@@ -1,0 +1,283 @@
+.panel {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'VT323', 'Courier New', monospace;
+  padding: 20px;
+  border: 2px solid var(--border-color);
+  box-shadow: 0 0 10px var(--border-color);
+  margin: 20px;
+  max-width: 800px;
+  position: relative;
+}
+
+.screen {
+  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  border: 1px solid var(--border-color);
+  padding: 15px;
+  min-height: 200px;
+  max-height: 400px;
+  margin-bottom: 15px;
+  white-space: pre-wrap;
+  overflow-y: auto;
+  font-size: 1.2em;
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: var(--text-color) var(--background-color);
+}
+
+/* Webkit scrollbar styles */
+.screen::-webkit-scrollbar {
+  width: 8px;
+}
+
+.screen::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  border: 1px solid var(--border-color);
+}
+
+.screen::-webkit-scrollbar-thumb {
+  background-color: var(--text-color);
+  border-radius: 4px;
+  border: 2px solid var(--background-color);
+}
+
+.screen::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--text-color) 80%, transparent);
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.button {
+  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  padding: 8px 16px;
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 2px 0 var(--border-color),
+    0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.button:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--background-color) 60%, var(--text-color) 40%);
+  transform: translateY(-1px);
+  box-shadow: 
+    0 1px 0 var(--border-color),
+    0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 
+    0 0 0 var(--border-color),
+    0 0 2px rgba(0, 0, 0, 0.4);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.button.active {
+  background-color: var(--text-color);
+  color: var(--background-color);
+  transform: translateY(0);
+  box-shadow: 
+    0 0 0 var(--border-color),
+    0 0 8px var(--border-color);
+}
+
+.statusBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-color);
+  padding-top: 10px;
+  font-size: 0.9em;
+  gap: 15px;
+}
+
+.signalStrength {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  min-width: 200px;
+}
+
+.signalStrength::before {
+  content: "SIGNAL: ";
+  margin-right: 8px;
+}
+
+.bar {
+  width: 15px;
+  height: 20px;
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.bar.active.low {
+  background-color: var(--text-color);
+}
+
+.bar.active.medium {
+  background-color: #ffff00;
+}
+
+.bar.active.high {
+  background-color: #ff0000;
+}
+
+.bar.inactive {
+  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+}
+
+@keyframes bootAnimation {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.bootProgress {
+  height: 20px;
+  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  border: 1px solid var(--border-color);
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+.bootProgressBar {
+  height: 100%;
+  background-color: var(--text-color);
+  animation: bootAnimation 3s linear;
+  box-shadow: 0 0 10px var(--border-color);
+}
+
+.spacebarIndicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--border-color);
+  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  min-width: 80px;
+  justify-content: center;
+}
+
+.led {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.led.active {
+  background-color: var(--text-color);
+  box-shadow: 0 0 8px var(--border-color);
+}
+
+.timer {
+  display: inline-block;
+  padding: 8px 16px;
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 1.1em;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  min-width: 60px;
+  text-align: center;
+}
+
+.timer.yellowWarning {
+  border-color: #ffff00;
+  color: #ffff00;
+  background-color: #111100;
+}
+
+.timer.redWarning {
+  border-color: #ff0000;
+  color: #ff0000;
+  background-color: #110000;
+}
+
+.statusText {
+  color: var(--text-color);
+  text-shadow: 0 0 5px var(--border-color);
+  position: relative;
+  display: inline-block;
+  padding: 4px 8px;
+  border: 1px solid var(--border-color);
+  background-color: color-mix(in srgb, var(--background-color) 90%, var(--text-color) 10%);
+  min-width: 200px;
+}
+
+@keyframes statusPulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes scanningAnimation {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
+.statusText.scanning {
+  background-image: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--background-color) 90%, var(--text-color) 10%) 0%,
+    color-mix(in srgb, var(--background-color) 70%, var(--text-color) 30%) 25%,
+    color-mix(in srgb, var(--background-color) 90%, var(--text-color) 10%) 50%
+  );
+  background-size: 200px 100%;
+  animation: scanningAnimation 2s linear infinite;
+}
+
+.statusText.initializing {
+  animation: statusPulse 1s ease-in-out infinite;
+}
+
+.statusText.processing {
+  animation: statusPulse 0.5s ease-in-out infinite;
+}
+
+.statusText.ready {
+  box-shadow: 0 0 8px var(--border-color);
+}
+
+.statusText.standby {
+  opacity: 0.7;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.6em;
+  height: 1.2em;
+  background-color: var(--text-color);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+.cursorContainer {
+  display: inline-block;
+  vertical-align: middle;
+} 
