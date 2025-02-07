@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Circle -->
+    <circle cx="256" cy="256" r="240" fill="#2B5797"/>
+    
+    <!-- Ship's Wheel -->
+    <circle cx="256" cy="256" r="120" stroke="white" stroke-width="24" fill="none"/>
+    <circle cx="256" cy="256" r="40" fill="white"/>
+    
+    <!-- Wheel Spokes -->
+    <g stroke="white" stroke-width="24" stroke-linecap="round">
+        <!-- Vertical -->
+        <line x1="256" y1="136" x2="256" y2="96"/>
+        <line x1="256" y1="416" x2="256" y2="376"/>
+        <!-- Horizontal -->
+        <line x1="136" y1="256" x2="96" y2="256"/>
+        <line x1="416" y1="256" x2="376" y2="256"/>
+        <!-- Diagonal 1 -->
+        <line x1="171" y1="171" x2="144" y2="144"/>
+        <line x1="368" y1="368" x2="341" y2="341"/>
+        <!-- Diagonal 2 -->
+        <line x1="171" y1="341" x2="144" y2="368"/>
+        <line x1="368" y1="144" x2="341" y2="171"/>
+    </g>
+    
+    <!-- Notepad Lines (overlaid on wheel) -->
+    <g stroke="white" stroke-width="12" stroke-linecap="round">
+        <line x1="226" y1="236" x2="286" y2="236"/>
+        <line x1="226" y1="256" x2="286" y2="256"/>
+        <line x1="226" y1="276" x2="286" y2="276"/>
+    </g>
+</svg> 

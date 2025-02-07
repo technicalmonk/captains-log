@@ -101,28 +101,88 @@
 
 .statusBar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  border-top: 1px solid var(--border-color);
-  padding-top: 10px;
-  font-size: 0.9em;
-  gap: 15px;
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 0 15px 0;
+  margin-bottom: 15px;
+  font-size: 1.2em;
+  gap: 40px;
+  font-family: 'VT323', 'Courier New', monospace;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.statusText {
+  color: var(--text-color);
+  text-shadow: 0 0 5px var(--border-color);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  min-width: 180px;
+}
+
+.timer {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 1.2em;
+  min-width: 90px;
+  text-align: center;
+  position: relative;
+  color: var(--text-color);
+}
+
+.timer::before {
+  content: "TIME:";
+  margin-right: 10px;
+  color: var(--text-color);
+}
+
+.timer.normalTime {
+  color: var(--text-color);
+  text-shadow: 0 0 5px var(--border-color);
+}
+
+.spacebarIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  min-width: 100px;
+  justify-content: flex-start;
+}
+
+.led {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  transition: all 0.2s ease;
+}
+
+.led.active {
+  background-color: var(--text-color);
+  box-shadow: 0 0 10px var(--text-color);
 }
 
 .signalStrength {
-  display: flex;
+  display: inline-flex;
   gap: 2px;
   align-items: center;
-  min-width: 200px;
+  min-width: 280px;
+  margin-left: auto;
 }
 
 .signalStrength::before {
-  content: "SIGNAL: ";
-  margin-right: 8px;
+  content: "SIGNAL:";
+  margin-right: 10px;
 }
 
 .bar {
-  width: 15px;
+  width: 16px;
   height: 20px;
   border: 1px solid var(--border-color);
   transition: all 0.2s ease;
@@ -144,6 +204,26 @@
   background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
 }
 
+.timer.yellowWarning {
+  color: #ffff00;
+  text-shadow: 0 0 12px #ffff00;
+  background: none;
+}
+
+.timer.yellowWarning::before {
+  color: var(--text-color);
+}
+
+.timer.redWarning {
+  color: #ff0000;
+  text-shadow: 0 0 12px #ff0000;
+  background: none;
+}
+
+.timer.redWarning::before {
+  color: var(--text-color);
+}
+
 @keyframes bootAnimation {
   0% { width: 0%; }
   100% { width: 100%; }
@@ -162,66 +242,6 @@
   background-color: var(--text-color);
   animation: bootAnimation 3s linear;
   box-shadow: 0 0 10px var(--border-color);
-}
-
-.spacebarIndicator {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 8px;
-  border: 1px solid var(--border-color);
-  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
-  min-width: 80px;
-  justify-content: center;
-}
-
-.led {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
-  border: 1px solid var(--border-color);
-  transition: all 0.2s ease;
-}
-
-.led.active {
-  background-color: var(--text-color);
-  box-shadow: 0 0 8px var(--border-color);
-}
-
-.timer {
-  display: inline-block;
-  padding: 8px 16px;
-  font-family: 'VT323', 'Courier New', monospace;
-  font-size: 1.1em;
-  border: 1px solid var(--border-color);
-  color: var(--text-color);
-  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
-  min-width: 60px;
-  text-align: center;
-}
-
-.timer.yellowWarning {
-  border-color: #ffff00;
-  color: #ffff00;
-  background-color: #111100;
-}
-
-.timer.redWarning {
-  border-color: #ff0000;
-  color: #ff0000;
-  background-color: #110000;
-}
-
-.statusText {
-  color: var(--text-color);
-  text-shadow: 0 0 5px var(--border-color);
-  position: relative;
-  display: inline-block;
-  padding: 4px 8px;
-  border: 1px solid var(--border-color);
-  background-color: color-mix(in srgb, var(--background-color) 90%, var(--text-color) 10%);
-  min-width: 200px;
 }
 
 @keyframes statusPulse {

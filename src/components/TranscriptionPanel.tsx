@@ -222,16 +222,38 @@ export const TranscriptionPanel: React.FC<TranscriptionPanelProps> = ({ language
     if (!isListening) return '';
     if (timeRemaining <= RED_WARNING_THRESHOLD_SECONDS) return styles.redWarning;
     if (timeRemaining <= YELLOW_WARNING_THRESHOLD_SECONDS) return styles.yellowWarning;
-    return '';
+    return styles.normalTime;
   };
 
   return (
     <div className={`${styles.panel} ${retroStyles.retroContainer}`}>
+      <div className={`${styles.statusBar} ${retroStyles.pixelated}`}>
+        <div className={`${styles.statusText} ${styles[status]} ${retroStyles.pixelated}`}>
+          STATUS: {status.toUpperCase()}
+        </div>
+        <div className={`${styles.timer} ${getTimerClass()} ${retroStyles.glowText}`}>
+          {timeRemaining}s
+        </div>
+        <div className={`${styles.spacebarIndicator} ${retroStyles.crtEffect}`}>
+          <div className={`${styles.led} ${isSpacebarPressed ? styles.active : ''}`} />
+          <span>SPACE</span>
+        </div>
+        <div className={styles.signalStrength}>
+          {[...Array(10)].map((_, i) => (
+            <div
+              key={i}
+              className={`${styles.bar} ${getSignalClass(i)} ${retroStyles.crtEffect}`}
+            />
+          ))}
+        </div>
+      </div>
+
       <div ref={screenRef} className={`${styles.screen} ${retroStyles.crtEffect}`}>
         <GlitchEffect>
           {getLatestTranscription()}
         </GlitchEffect>
       </div>
+      
       <div className={styles.controls}>
         <button
           className={`${styles.button} ${isListening ? styles.active : ''} ${retroStyles.pixelated}`}
@@ -260,30 +282,7 @@ export const TranscriptionPanel: React.FC<TranscriptionPanelProps> = ({ language
         >
           EXPORT LOG
         </button>
-        {isListening && (
-          <div className={`${styles.timer} ${getTimerClass()} ${retroStyles.glowText}`}>
-            {timeRemaining}s
-          </div>
-        )}
-      </div>
-
-      <div className={`${styles.statusBar} ${retroStyles.pixelated}`}>
-        <div className={`${styles.statusText} ${styles[status]} ${retroStyles.pixelated}`}>
-          STATUS: {status.toUpperCase()}
-        </div>
-        <div className={`${styles.spacebarIndicator} ${retroStyles.crtEffect}`}>
-          <div className={`${styles.led} ${isSpacebarPressed ? styles.active : ''}`} />
-          <span>SPACE</span>
-        </div>
-        <div className={styles.signalStrength}>
-          {[...Array(10)].map((_, i) => (
-            <div
-              key={i}
-              className={`${styles.bar} ${getSignalClass(i)} ${retroStyles.crtEffect}`}
-            />
-          ))}
-        </div>
       </div>
     </div>
   );
-}; 
+};
