@@ -2,7 +2,7 @@
 
 An 80s-inspired voice note dictation and transcription application that provides a unique, efficient, and enjoyable user experience for capturing and managing spoken thoughts, ideas, and notes.
 
-![Captain's Log Interface](/img/captains-log-interface.png)
+![Captain's Log Interface](/img/captainslog-screenshot.png)
 
 ## Features
 
