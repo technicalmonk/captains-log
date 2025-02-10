@@ -47,20 +47,34 @@
 
 .controls {
   display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.titleInput {
+  display: flex;
   gap: 10px;
-  margin-bottom: 15px;
+}
+
+.titleInput input {
+  flex: 1;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
 .button {
-  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
-  color: var(--text-color);
+  background-color: transparent;
   border: 1px solid var(--border-color);
+  color: var(--text-color);
   padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
   font-family: 'VT323', 'Courier New', monospace;
   font-size: 1.1em;
-  cursor: pointer;
-  transition: all 0.15s ease;
   position: relative;
   transform: translateY(-2px);
   box-shadow: 
@@ -69,222 +83,125 @@
 }
 
 .button:hover:not(:disabled) {
-  background-color: color-mix(in srgb, var(--background-color) 60%, var(--text-color) 40%);
-  transform: translateY(-1px);
+  background-color: color-mix(in srgb, var(--text-color) 20%, transparent);
   box-shadow: 
-    0 1px 0 var(--border-color),
-    0 2px 4px rgba(0, 0, 0, 0.4);
+    0 2px 0 var(--border-color),
+    0 3px 6px rgba(0, 0, 0, 0.4),
+    0 0 8px var(--text-color);
 }
 
 .button:active:not(:disabled) {
   transform: translateY(0);
   box-shadow: 
-    0 0 0 var(--border-color),
-    0 0 2px rgba(0, 0, 0, 0.4);
+    0 0px 0 var(--border-color),
+    0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
 }
 
 .button.active {
-  background-color: var(--text-color);
-  color: var(--background-color);
-  transform: translateY(0);
+  background-color: color-mix(in srgb, var(--text-color) 30%, transparent);
   box-shadow: 
-    0 0 0 var(--border-color),
-    0 0 8px var(--border-color);
-}
-
-.statusBar {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  border-bottom: 1px solid var(--border-color);
-  padding: 0 0 15px 0;
-  margin-bottom: 15px;
-  font-size: 1.2em;
-  gap: 40px;
-  font-family: 'VT323', 'Courier New', monospace;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-}
-
-.statusText {
-  color: var(--text-color);
-  text-shadow: 0 0 5px var(--border-color);
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  padding: 0;
-  min-width: 180px;
-}
-
-.timer {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  font-size: 1.2em;
-  min-width: 90px;
-  text-align: center;
-  position: relative;
-  color: var(--text-color);
-}
-
-.timer::before {
-  content: "TIME:";
-  margin-right: 10px;
-  color: var(--text-color);
-}
-
-.timer.normalTime {
-  color: var(--text-color);
-  text-shadow: 0 0 5px var(--border-color);
+    0 2px 0 var(--border-color),
+    0 3px 6px rgba(0, 0, 0, 0.4),
+    0 0 12px var(--text-color);
 }
 
 .spacebarIndicator {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 0;
-  min-width: 100px;
-  justify-content: flex-start;
+  gap: 8px;
+  padding: 4px 8px;
+  border: 1px solid var(--border-color);
+  background-color: color-mix(in srgb, var(--background-color) 90%, var(--text-color) 10%);
 }
 
 .led {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  background-color: #330000;
+  border: 1px solid #ff0000;
   transition: all 0.2s ease;
 }
 
 .led.active {
-  background-color: var(--text-color);
-  box-shadow: 0 0 10px var(--text-color);
+  background-color: #ff0000;
+  box-shadow: 0 0 8px #ff0000;
 }
 
 .signalStrength {
-  display: inline-flex;
+  display: flex;
   gap: 2px;
-  align-items: center;
-  min-width: 280px;
-  margin-left: auto;
-}
-
-.signalStrength::before {
-  content: "SIGNAL:";
-  margin-right: 10px;
+  align-items: flex-end;
+  height: 20px;
 }
 
 .bar {
-  width: 16px;
-  height: 20px;
+  width: 4px;
+  height: 100%;
+  background-color: color-mix(in srgb, var(--text-color) 20%, transparent);
   border: 1px solid var(--border-color);
   transition: all 0.2s ease;
 }
 
-.bar.active.low {
+.bar.active {
   background-color: var(--text-color);
 }
 
+.bar.active.low {
+  background-color: #ff0000;
+  box-shadow: 0 0 4px #ff0000;
+}
+
 .bar.active.medium {
-  background-color: #ffff00;
+  background-color: #ffb000;
+  box-shadow: 0 0 4px #ffb000;
 }
 
 .bar.active.high {
-  background-color: #ff0000;
+  background-color: #00ff00;
+  box-shadow: 0 0 4px #00ff00;
 }
 
-.bar.inactive {
-  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+.timer {
+  font-family: 'VT323', monospace;
+  font-size: 1.2em;
+  padding: 4px 8px;
+  border: 1px solid var(--border-color);
+  background-color: color-mix(in srgb, var(--background-color) 90%, var(--text-color) 10%);
 }
 
 .timer.yellowWarning {
-  color: #ffff00;
-  text-shadow: 0 0 12px #ffff00;
-  background: none;
-}
-
-.timer.yellowWarning::before {
-  color: var(--text-color);
+  color: #ffb000;
+  border-color: #ffb000;
+  animation: pulse 1s infinite;
 }
 
 .timer.redWarning {
   color: #ff0000;
-  text-shadow: 0 0 12px #ff0000;
-  background: none;
+  border-color: #ff0000;
+  animation: pulse 0.5s infinite;
 }
 
-.timer.redWarning::before {
-  color: var(--text-color);
-}
-
-@keyframes bootAnimation {
-  0% { width: 0%; }
-  100% { width: 100%; }
-}
-
-.bootProgress {
-  height: 20px;
-  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
-  border: 1px solid var(--border-color);
-  margin: 10px 0;
-  overflow: hidden;
-}
-
-.bootProgressBar {
-  height: 100%;
-  background-color: var(--text-color);
-  animation: bootAnimation 3s linear;
-  box-shadow: 0 0 10px var(--border-color);
-}
-
-@keyframes statusPulse {
+@keyframes pulse {
   0% { opacity: 1; }
   50% { opacity: 0.5; }
   100% { opacity: 1; }
 }
 
-@keyframes scanningAnimation {
-  0% { background-position: -200px 0; }
-  100% { background-position: 200px 0; }
-}
-
-.statusText.scanning {
-  background-image: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--background-color) 90%, var(--text-color) 10%) 0%,
-    color-mix(in srgb, var(--background-color) 70%, var(--text-color) 30%) 25%,
-    color-mix(in srgb, var(--background-color) 90%, var(--text-color) 10%) 50%
-  );
-  background-size: 200px 100%;
-  animation: scanningAnimation 2s linear infinite;
-}
-
-.statusText.initializing {
-  animation: statusPulse 1s ease-in-out infinite;
-}
-
-.statusText.processing {
-  animation: statusPulse 0.5s ease-in-out infinite;
-}
-
-.statusText.ready {
-  box-shadow: 0 0 8px var(--border-color);
-}
-
-.statusText.standby {
-  opacity: 0.7;
-}
-
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.cursorContainer {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .cursor {
@@ -297,7 +214,54 @@
   animation: blink 1s step-end infinite;
 }
 
-.cursorContainer {
-  display: inline-block;
-  vertical-align: middle;
+.statusBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  border: 1px solid var(--border-color);
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 1.1em;
+}
+
+.statusText {
+  text-transform: uppercase;
+}
+
+.statusText.initializing {
+  color: #ffb000;
+}
+
+.statusText.scanning {
+  color: #00ff00;
+  animation: blink 1s infinite;
+}
+
+.statusText.processing {
+  color: #00ff00;
+}
+
+.statusText.ready {
+  color: #00ff00;
+}
+
+.statusText.standby {
+  opacity: 0.7;
+}
+
+.titleRow {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.titleRow input {
+  flex: 1;
+}
+
+.spacebarIndicator span.disabled {
+  text-decoration: line-through;
+  opacity: 0.5;
 } 

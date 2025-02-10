@@ -20,16 +20,19 @@
 
 .App-header {
   background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
-  padding: 20px;
+  padding: 30px 20px;
   border-bottom: 2px solid var(--border-color);
   box-shadow: 0 0 10px var(--border-color);
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App-header h1 {
   margin: 0;
-  font-size: 3em;
+  font-size: 3.5em;
   color: var(--text-color);
   text-shadow: 0 0 10px var(--text-color);
 }

@@ -4,12 +4,13 @@ import { SoundEffectsService } from '../services/SoundEffectsService';
 import styles from './TranscriptionPanel.module.css';
 import retroStyles from '../styles/RetroEffects.module.css';
 import GlitchEffect from './GlitchEffect';
+import { NoteManagementService } from '../services/NoteManagementService';
 
 interface TranscriptionPanelProps {
   language?: string;
 }
 
-const RECORDING_LIMIT_SECONDS = 20;
+const MAX_RECORDING_TIME_SECONDS = 20; // 20 seconds
 const RED_WARNING_THRESHOLD_SECONDS = 5;
 const YELLOW_WARNING_THRESHOLD_SECONDS = 10;
 
@@ -23,14 +24,18 @@ export const TranscriptionPanel: React.FC<TranscriptionPanelProps> = ({ language
     transcription,
     startTranscription,
     stopTranscription,
-    clearTranscription
+    clearTranscription,
+    error
   } = useTranscription();
 
   const [signalStrength, setSignalStrength] = useState(0);
   const [isSpacebarPressed, setIsSpacebarPressed] = useState(false);
   const [isBooting, setIsBooting] = useState(true);
-  const [timeRemaining, setTimeRemaining] = useState(RECORDING_LIMIT_SECONDS);
-  const [status, setStatus] = useState<'standby' | 'initializing' | 'scanning' | 'ready' | 'processing'>('standby');
+  const [timeRemaining, setTimeRemaining] = useState(MAX_RECORDING_TIME_SECONDS);
+  const [status, setStatus] = useState<'standby' | 'initializing' | 'scanning' | 'processing' | 'ready'>('standby');
+  const [noteTitle, setNoteTitle] = useState('');
+  const [noteService] = useState(() => new NoteManagementService());
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
 
   useEffect(() => {
     // Play startup sound and show boot animation
@@ -44,18 +49,18 @@ export const TranscriptionPanel: React.FC<TranscriptionPanelProps> = ({ language
     let timer: NodeJS.Timeout | null = null;
     
     if (isListening) {
-      setTimeRemaining(RECORDING_LIMIT_SECONDS);
+      setTimeRemaining(MAX_RECORDING_TIME_SECONDS);
       timer = setInterval(() => {
         setTimeRemaining(prev => {
           if (prev <= 1) {
             stopTranscription();
-            return RECORDING_LIMIT_SECONDS;
+            return MAX_RECORDING_TIME_SECONDS;
           }
           return prev - 1;
         });
       }, 1000);
     } else {
-      setTimeRemaining(RECORDING_LIMIT_SECONDS);
+      setTimeRemaining(MAX_RECORDING_TIME_SECONDS);
     }
 
     return () => {
@@ -66,13 +71,13 @@ export const TranscriptionPanel: React.FC<TranscriptionPanelProps> = ({ language
   }, [isListening, stopTranscription]);
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (event.code === 'Space' && !event.repeat && !isSpacebarPressed) {
+    if (event.code === 'Space' && !event.repeat && !isSpacebarPressed && !isListening && !isEditingTitle) {
       event.preventDefault();
       setIsSpacebarPressed(true);
       soundEffects.playBeep(1200, 100);
       startTranscription({ language, continuous: true, interimResults: true });
     }
-  }, [startTranscription, language, isSpacebarPressed]);
+  }, [startTranscription, language, isSpacebarPressed, isListening, isEditingTitle]);
 
   const handleKeyUp = useCallback((event: KeyboardEvent) => {
     if (event.code === 'Space') {
@@ -114,6 +119,17 @@ export const TranscriptionPanel: React.FC<TranscriptionPanelProps> = ({ language
   const handleClear = () => {
     soundEffects.playBeep(600, 100);
     clearTranscription();
+    setNoteTitle('');
+  };
+
+  const handleSaveNote = () => {
+    if (!transcription.length) return;
+    
+    const title = noteTitle.trim() || `Log Entry ${new Date().toLocaleString()}`;
+    noteService.createNote(title, transcription);
+    soundEffects.playBeep(1000, 100);
+    clearTranscription();
+    setNoteTitle('');
   };
 
   useEffect(() => {
@@ -189,40 +205,20 @@ export const TranscriptionPanel: React.FC<TranscriptionPanelProps> = ({ language
     }
   };
 
-  const handleExport = () => {
-    if (transcription.length === 0) return;
-    
-    const now = new Date();
-    const fileName = `captainslog-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${String(now.getHours()).padStart(2, '0')}${String(now.getMinutes()).padStart(2, '0')}.txt`;
-    
-    const firstTime = new Date(transcription[0].timestamp).toLocaleTimeString();
-    const lastTime = new Date(transcription[transcription.length - 1].timestamp).toLocaleTimeString();
-    
-    const dateStr = now.toLocaleDateString('en-US', { 
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-    
-    const content = `Date: ${dateStr}\n\nTimecodes: ${firstTime} - ${lastTime}\n\n${transcription.map(t => t.text).join('\n')}`;
-    
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
-
   const getTimerClass = () => {
     if (!isListening) return '';
     if (timeRemaining <= RED_WARNING_THRESHOLD_SECONDS) return styles.redWarning;
     if (timeRemaining <= YELLOW_WARNING_THRESHOLD_SECONDS) return styles.yellowWarning;
     return styles.normalTime;
+  };
+
+  const handleTitleFocus = () => {
+    setIsEditingTitle(true);
+  };
+
+  const handleSaveTitle = () => {
+    setIsEditingTitle(false);
+    soundEffects.playBeep(1000, 100);
   };
 
   return (
@@ -236,7 +232,7 @@ export const TranscriptionPanel: React.FC<TranscriptionPanelProps> = ({ language
         </div>
         <div className={`${styles.spacebarIndicator} ${retroStyles.crtEffect}`}>
           <div className={`${styles.led} ${isSpacebarPressed ? styles.active : ''}`} />
-          <span>SPACE</span>
+          <span className={isEditingTitle ? styles.disabled : ''}>SPACE</span>
         </div>
         <div className={styles.signalStrength}>
           {[...Array(10)].map((_, i) => (
@@ -255,33 +251,52 @@ export const TranscriptionPanel: React.FC<TranscriptionPanelProps> = ({ language
       </div>
       
       <div className={styles.controls}>
-        <button
-          className={`${styles.button} ${isListening ? styles.active : ''} ${retroStyles.pixelated}`}
-          onClick={handleStart}
-          disabled={isListening}
-        >
-          START RECORDING
-        </button>
-        <button
-          className={`${styles.button} ${retroStyles.pixelated}`}
-          onClick={handleStop}
-          disabled={!isListening}
-        >
-          STOP RECORDING
-        </button>
-        <button
-          className={`${styles.button} ${retroStyles.pixelated}`}
-          onClick={handleClear}
-        >
-          CLEAR LOG
-        </button>
-        <button
-          className={`${styles.button} ${retroStyles.pixelated}`}
-          onClick={handleExport}
-          disabled={transcription.length === 0}
-        >
-          EXPORT LOG
-        </button>
+        <div className={styles.titleRow}>
+          <input
+            type="text"
+            value={noteTitle}
+            onChange={(e) => setNoteTitle(e.target.value)}
+            onFocus={handleTitleFocus}
+            placeholder="LOG ENTRY TITLE..."
+            className={retroStyles.retroInput}
+          />
+          <button
+            onClick={handleSaveTitle}
+            className={`${styles.button} ${retroStyles.pixelated}`}
+            disabled={!isEditingTitle}
+          >
+            SAVE TITLE
+          </button>
+        </div>
+        <div className={styles.buttonGroup}>
+          <button
+            className={`${styles.button} ${isListening ? styles.active : ''} ${retroStyles.pixelated}`}
+            onClick={handleStart}
+            disabled={isListening || isEditingTitle}
+          >
+            START RECORDING
+          </button>
+          <button
+            className={`${styles.button} ${retroStyles.pixelated}`}
+            onClick={handleStop}
+            disabled={!isListening}
+          >
+            STOP RECORDING
+          </button>
+          <button
+            className={`${styles.button} ${retroStyles.pixelated}`}
+            onClick={handleClear}
+          >
+            CLEAR LOG
+          </button>
+          <button
+            className={`${styles.button} ${retroStyles.pixelated}`}
+            onClick={handleSaveNote}
+            disabled={transcription.length === 0}
+          >
+            SAVE LOG
+          </button>
+        </div>
       </div>
     </div>
   );

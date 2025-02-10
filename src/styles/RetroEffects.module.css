@@ -84,30 +84,107 @@
   animation: flicker 15s infinite;
   transform-style: preserve-3d;
   perspective: 1000px;
+  overflow: hidden;
 }
 
 .crtEffect::before {
-  content: "";
+  content: " ";
+  display: block;
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
   bottom: 0;
+  right: 0;
   background: linear-gradient(
-    rgba(0, 255, 0, 0.03),
-    rgba(0, 255, 0, 0.015)
+    to bottom,
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
   );
+  background-size: 100% 4px;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
+}
+
+.crtEffect::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(18, 16, 16, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .glowText {
-  animation: textShadowPulse 6s infinite;
-  color: #0f0;
+  text-shadow: 0 0 10px var(--text-color);
+  animation: textPulse 4s infinite;
 }
 
 .pixelated {
+  font-family: 'VT323', monospace;
   image-rendering: pixelated;
   font-smooth: never;
   -webkit-font-smoothing: none;
+}
+
+.retroInput {
+  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 8px;
+  font-family: 'VT323', monospace;
+  font-size: 1.1em;
+}
+
+.retroInput:focus {
+  outline: none;
+  box-shadow: 0 0 8px var(--text-color);
+}
+
+.viewControls {
+  display: flex;
+  gap: 40px;
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.viewButton {
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-color);
+  padding: 10px 5px;
+  font-family: 'VT323', monospace;
+  font-size: 1.4em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  position: relative;
+  opacity: 0.7;
+}
+
+.viewButton:hover {
+  opacity: 1;
+  border-bottom-color: var(--border-color);
+}
+
+.viewButton.active {
+  opacity: 1;
+  border-bottom-color: var(--text-color);
+  text-shadow: 0 0 8px var(--text-color);
+}
+
+@keyframes textPulse {
+  0% { text-shadow: 0 0 10px var(--text-color); }
+  50% { text-shadow: 0 0 20px var(--text-color); }
+  100% { text-shadow: 0 0 10px var(--text-color); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
 } 

@@ -1,0 +1,244 @@
+.panel {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  height: 100%;
+  min-height: 600px;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.sidebar {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section {
+  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  border: 1px solid var(--border-color);
+  padding: 15px;
+}
+
+.section h3 {
+  margin: 0 0 15px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.folderList, .tagList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.folderButton, .tagButton {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 8px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'VT323', 'Courier New', monospace;
+}
+
+.folderButton:hover, .tagButton:hover {
+  background-color: color-mix(in srgb, var(--text-color) 20%, transparent);
+}
+
+.folderButton.active, .tagButton.active {
+  background-color: color-mix(in srgb, var(--text-color) 30%, transparent);
+  box-shadow: 0 0 8px var(--text-color);
+}
+
+.newFolder {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 15px;
+  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  border: 1px solid var(--border-color);
+}
+
+.search {
+  flex: 1;
+}
+
+.search input {
+  width: 100%;
+}
+
+.sort {
+  display: flex;
+  gap: 10px;
+}
+
+.sortButton {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'VT323', 'Courier New', monospace;
+}
+
+.sortButton:hover {
+  background-color: color-mix(in srgb, var(--text-color) 20%, transparent);
+}
+
+.sortButton.active {
+  background-color: color-mix(in srgb, var(--text-color) 30%, transparent);
+  box-shadow: 0 0 8px var(--text-color);
+}
+
+.noteList {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+  background-color: color-mix(in srgb, var(--background-color) 80%, var(--text-color) 20%);
+  border: 1px solid var(--border-color);
+  overflow-y: auto;
+}
+
+.newNote {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.newNote input {
+  flex: 1;
+}
+
+.noteItem {
+  background-color: color-mix(in srgb, var(--background-color) 90%, var(--text-color) 10%);
+  border: 1px solid var(--border-color);
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.noteItem:hover {
+  background-color: color-mix(in srgb, var(--background-color) 85%, var(--text-color) 15%);
+  box-shadow: 0 0 8px var(--text-color);
+}
+
+.noteItem.selected {
+  background-color: color-mix(in srgb, var(--background-color) 70%, var(--text-color) 30%);
+  box-shadow: 0 0 12px var(--text-color);
+}
+
+.noteHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.noteHeader h4 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.noteMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.noteTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  background-color: color-mix(in srgb, var(--text-color) 20%, transparent);
+  border: 1px solid var(--border-color);
+  padding: 4px 8px;
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.removeTag {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  padding: 0;
+  font-size: 1.2em;
+  line-height: 1;
+  opacity: 0.7;
+}
+
+.removeTag:hover {
+  opacity: 1;
+}
+
+.addTag {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.button {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'VT323', 'Courier New', monospace;
+}
+
+.button:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--text-color) 20%, transparent);
+  box-shadow: 0 0 8px var(--text-color);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.deleteButton {
+  background-color: transparent;
+  border: 1px solid #ff0000;
+  color: #ff0000;
+  padding: 4px 8px;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'VT323', 'Courier New', monospace;
+}
+
+.deleteButton:hover {
+  background-color: color-mix(in srgb, #ff0000 20%, transparent);
+  box-shadow: 0 0 8px #ff0000;
+} 
